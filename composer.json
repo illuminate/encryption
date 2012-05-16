@@ -1,0 +1,16 @@
+{
+    "name": "illuminate/encryption",
+    "description": "A simple wrapper around the mcrypt library.",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "classmap": ["src/Illuminate/Encrypter.php"]
+    }
+}
