@@ -52,7 +52,7 @@ class Encrypter {
 
 		// We'll pad the value with PKCS7 compataible padding, which basically
 		// means the value will be padded with a byte whose value is equal
-		// to the number of bytes needed to complete the block's size.
+		// to the number of bytes in order to complete the block's size.
 		$value = $this->pad($value);
 
 		$value = mcrypt_encrypt($this->cipher, $this->key, $value, $this->mode, $iv);
@@ -73,8 +73,8 @@ class Encrypter {
 		$value = base64_decode($value);
 
 		// We need to extract the input vector from the encrypted value so
-		// we'll slice the string based on the size of the vector for
-		// the cipher and mode that was used during encryption.
+		// we'll slice the string based on the size of the vectors for
+		// the cipher and mode that this used during the encryption.
 		$iv = substr($value, 0, $iv_size);
 
 		$value = substr($value, $iv_size);
@@ -126,7 +126,7 @@ class Encrypter {
 
 		if ($pad and $pad < $this->getBlockSize())
 		{
-			// If the correct padding is present on the string we will remove it and
+			// When the correct padding is present on the string we will remove it and
 			// return the value. Otherwise, we'll throw an exception as it appears
 			// that the encrypted value has been changed since it was generated.
 			if (preg_match('/'.chr($pad).'{'.$pad.'}$/', $value))
@@ -167,7 +167,7 @@ class Encrypter {
 
 		// When using the default / system random number generator we'll
 		// seed the number genrator on each call to ensure the given
-		// results come as random as we can possibly make them.
+		// results come as random as we can possibly create them.
 		else
 		{
 			mt_srand();
