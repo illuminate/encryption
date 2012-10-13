@@ -8,8 +8,8 @@
         }
     ],
     "require": {
-        "phpsec/phpsec": "0.4.0",
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "phpsec/phpsec": "0.4.0"
     },
     "autoload": {
         "classmap": ["src/Illuminate/Encrypter.php"]
