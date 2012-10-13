@@ -15,7 +15,7 @@ class EncrypterTest extends PHPUnit_Framework_TestCase {
 
 	protected function getEncrypter()
 	{
-		return new Encrypter('this_is_a_test_key');
+		return new Encrypter(\phpSec\Crypt\Rand::bytes(32));
 	}
 
 }
