@@ -13,9 +13,49 @@ class EncrypterTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @expectedException Illuminate\DecryptException
+	 */
+	public function testExceptionThrownWhenPayloadIsInvalid()
+	{
+		$e = $this->getEncrypter();
+		$payload = $e->encrypt('foo');
+		$payload .= 'adslkadlf';
+		$e->decrypt($payload);
+	}
+
+
+	/**
+	 * @expectedException Illuminate\DecryptException
+	 */
+	public function testExceptionThrownWhenMacIsInvalid()
+	{
+		$e = $this->getEncrypter();
+		$payload = $e->encrypt('foo');
+		$payload = json_decode($payload, true);
+		$payload['mac'] .= 'foobar';
+		$payload = json_encode($payload);
+		$e->decrypt($payload);
+	}
+
+
+	/**
+	 * @expectedException Illuminate\DecryptException
+	 */
+	public function testExceptionIsThrownWhenValueHasBeenChanged()
+	{
+		$e = $this->getEncrypter();
+		$payload = $e->encrypt('foo');
+		$payload = json_decode($payload, true);
+		$payload['value'] .= 'foobar';
+		$payload = json_encode($payload);
+		$e->decrypt($payload);
+	}
+
+
 	protected function getEncrypter()
 	{
-		return new Encrypter(\phpSec\Crypt\Rand::bytes(32));
+		return new Encrypter(str_repeat('a', 32));
 	}
 
 }
