@@ -62,7 +62,7 @@ class Encrypter {
 
 		$mac = $this->hash($value);
 
-		return json_encode(compact('iv', 'value', 'mac'));
+		return base64_encode(json_encode(compact('iv', 'value', 'mac')));
 	}
 
 	/**
@@ -119,12 +119,12 @@ class Encrypter {
 	 */
 	protected function getJsonPayload($payload)
 	{
-		$payload = json_decode($payload, true);
+		$payload = json_decode(base64_decode($payload), true);
 
 		// If the payload is not valid JSON or does not have the proper keys set we will
 		// assume it is invalid and bail out of the routine since we will not be able
 		// to decrypt the given value. We'll also check the MAC for this encrypion.
-		if (is_null($payload) or $this->invalidPayload($payload))
+		if ( ! $payload or $this->invalidPayload($payload))
 		{
 			throw new DecryptException("Invalid data passed to encrypter.");
 		}

@@ -28,27 +28,11 @@ class EncrypterTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException Illuminate\DecryptException
 	 */
-	public function testExceptionThrownWhenMacIsInvalid()
+	public function testExceptionThrownWhenValueIsInvalid()
 	{
 		$e = $this->getEncrypter();
 		$payload = $e->encrypt('foo');
-		$payload = json_decode($payload, true);
-		$payload['mac'] .= 'foobar';
-		$payload = json_encode($payload);
-		$e->decrypt($payload);
-	}
-
-
-	/**
-	 * @expectedException Illuminate\DecryptException
-	 */
-	public function testExceptionIsThrownWhenValueHasBeenChanged()
-	{
-		$e = $this->getEncrypter();
-		$payload = $e->encrypt('foo');
-		$payload = json_decode($payload, true);
-		$payload['value'] .= 'foobar';
-		$payload = json_encode($payload);
+		$payload .= 'adlkasdf';
 		$e->decrypt($payload);
 	}
 
