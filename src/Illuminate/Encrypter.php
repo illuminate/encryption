@@ -51,7 +51,7 @@ class Encrypter {
 	 */
 	public function encrypt($value)
 	{
-		$iv = mcrypt_create_iv($this->getIvSize());
+		$iv = mcrypt_create_iv($this->getIvSize(), $this->getRandomizer());
 
 		$value = base64_encode($this->padAndMcrypt($value, $iv));
 
@@ -204,6 +204,22 @@ class Encrypter {
 	protected function getIvSize()
 	{
 		return mcrypt_get_iv_size($this->cipher, $this->mode);
+	}
+
+	/**
+	 * Get the random data source available for the OS.
+	 *
+	 * @return int
+	 */
+	protected function getRandomizer()
+	{
+		if (defined('MCRYPT_DEV_URANDOM')) return MCRYPT_DEV_URANDOM;
+
+		if (defined('MCRYPT_DEV_RANDOM')) return MCRYPT_DEV_RANDOM;
+
+		mt_srand();
+
+		return MCRYPT_RAND;
 	}
 
 }
