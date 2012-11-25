@@ -7,12 +7,11 @@ class EncryptionServiceProvider extends ServiceProvider {
 	/**
 	 * Register the service provider.
 	 *
-	 * @param  Illuminate\Foundation\Application  $app
 	 * @return void
 	 */
-	public function register($app)
+	public function register()
 	{
-		$app['encrypter'] = $app->share(function($app)
+		$this->app['encrypter'] = $this->app->share(function($app)
 		{
 			return new Encrypter($app['config']['app.key']);
 		});
